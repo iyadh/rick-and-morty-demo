@@ -41,7 +41,8 @@ export default {
   computed: {
     ...mapState([
       'pagination',
-      'url'
+      'url',
+      'search'
     ]),
     searchUrl() {
       let _url = new URL('https://rickandmortyapi.com/api/character/');
@@ -53,16 +54,29 @@ export default {
       return _url;
     }
   },
+  mounted() {
+    this.name = this.search.name;
+    this.status = this.search.status;
+  },
   methods: {
     ...mapActions([
-      'getCharacters'
+      'getCharacters',
+      'saveSearch'
     ]),
     click() {
       this.getCharacters({url: this.searchUrl, page: this.pagination.page});
+      this.saveSearch({
+        name: this.name,
+        status: this.status
+      });
     },
     reset() {
       this.name = '';
       this.status = [];
+      this.saveSearch({
+        name: '',
+        status: []
+      });
       this.getCharacters({url: 'https://rickandmortyapi.com/api/character/', page: 1});
     }
   }

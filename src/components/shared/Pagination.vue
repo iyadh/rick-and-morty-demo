@@ -1,7 +1,8 @@
 <template>
-  <div class="my-8">
+  <div v-if="pagination.pages" class="py-8">
     <p class="mb-4 text-center">Page {{ pagination.page }} of {{ pagination.pages }}</p>
-    <nav class="cursor-pointer relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+    <nav v-if="pagination.pages > 1" class="cursor-pointer relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+         aria-label="Pagination">
       <a @click.prevent="previousPage"
          v-if="pagination.prev !== null"
          class="relative w-24 inline-flex items-center justify-between px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm

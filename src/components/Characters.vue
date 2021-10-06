@@ -1,13 +1,14 @@
 <template>
   <div class="container mx-auto px-4 md:px-0">
     <Searchbar />
-    <section class="characters--grid grid grid-cols-1 md:grid-cols-5 gap-4">
+    <section v-if="allCharacters.length" class="characters--grid grid grid-cols-1 md:grid-cols-5 gap-4">
       <Card v-for="character in allCharacters"
             :id="character.id"
             :img="character.image"
             :name="character.name"
             />
     </section>
+    <NoResults v-else />
     <Pagination />
   </div>
 </template>
@@ -17,10 +18,11 @@ import {mapGetters, mapActions, mapState} from "vuex"
 import Searchbar from "./shared/Searchbar.vue";
 import Card from './shared/Card.vue';
 import Pagination from "./shared/Pagination.vue";
+import NoResults from "./shared/NoResults.vue";
 
 export default {
   name: "Characters",
-  components: {Pagination, Searchbar, Card },
+  components: { NoResults, Pagination, Searchbar, Card },
   data: () => {},
   computed: {
     ...mapState([

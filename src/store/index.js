@@ -4,15 +4,13 @@ import { createStore } from 'vuex';
 const getters = {
   allCharacters: state => state.characters,
   findCharacterById: (state) => (id) => {
-    console.log(id)
     return state.characters.find(c => c.id === parseInt(id));
-  }
+  },
+  getQuery: state => state.search
 };
 // Actions
 const actions = {
   getCharacters({ commit }, {url, page} ) {
-    console.log(page);
-    console.log(url);
     fetch(url)
       .then((response) => response.json())
       .then((response) => {
@@ -26,7 +24,21 @@ const actions = {
           prev: response.info.prev
         });
         console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+        commit('setCharacters', []);
+        commit('setUrl', url);
+        commit('setPagination', {
+          page: 1,
+          pages: null,
+          next: null,
+          prev: null
+        });
       });
+  },
+  saveSearch({commit}, query) {
+    commit('setSearchQuery', query);
   }
 }
 // Mutations
@@ -39,6 +51,9 @@ const mutations = {
   },
   setUrl(state, url) {
     state.url = url;
+  },
+  setSearchQuery(state, query) {
+    state.search = query
   }
 }
 
@@ -48,6 +63,10 @@ export const store = createStore({
       characters: [],
       currentCharacter: {},
       url: 'https://rickandmortyapi.com/api/character',
+      search: {
+        name: '',
+        status: []
+      },
       pagination: {
         page: 1,
         pages: null,
