@@ -4,8 +4,12 @@
       <img :src="store.currentCharacter.image" :alt="store.currentCharacter.name" class="w-full md:w-1/2">
       <section class="flex flex-col items-start py-4 space-y-4">
         <h1 class="text-4xl mb-4 uppercase font-black tracking-widest">{{ store.currentCharacter.name }}</h1>
-        <!--<Pill :status="'species'" :label="store.currentCharacter.species + ' - ' + store.currentCharacter.gender" />
-        <Pill :status="store.currentCharacter.status?.toLowerCase()" :label="store.currentCharacter.status" />-->
+        <Pill :status="'species'">
+          {{ store.currentCharacter.species + ' - ' + store.currentCharacter.gender }}
+        </Pill>
+        <Pill :status="store.currentCharacter.status?.toLowerCase()">
+          {{ store.currentCharacter.status }}
+        </Pill>
         <span class="flex justify-center">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2 stroke-current text-gray-300" fill="none"
                viewBox="0 0 24 24"
