@@ -33,11 +33,10 @@ import {ref} from "vue";
 import { useStore } from '@/store';
 
 const store = useStore();
-const name = ref('');
-const status = ref([]);
+const name = ref(store.search.name);
+const status = ref(store.search.status);
 
 const click = () => {
-  console.log('page', store.pagination.page);
   const query = {
     name: name.value,
     status: status.value,
@@ -47,6 +46,7 @@ const click = () => {
     page: store.pagination.page
   });
   store.saveSearch(query);
+  store.setSearchMode(true);
 }
 
 const reset = () => {
@@ -57,6 +57,7 @@ const reset = () => {
     status: status.value,
   };
   store.saveSearch(query);
+  store.setSearchMode(false);
   store.fetchCharacters();
 }
 </script>

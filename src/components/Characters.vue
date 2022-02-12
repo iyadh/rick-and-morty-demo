@@ -24,7 +24,15 @@ import { useStore } from '@/store';
 const store = useStore();
 const { characters } = storeToRefs(store);
 
-store.fetchCharacters();
+const init = () => {
+  if (store.isSearch) {
+    store.searchCharacters(store.search);
+    return;
+  }
+  store.fetchCharacters(true, store.pagination.page);
+}
+
+init();
 </script>
 
 <style scoped>
