@@ -23,14 +23,20 @@
 
 <script setup>
 import {onUnmounted} from "vue";
-import { useRoute } from 'vue-router';
+import {useRoute, useRouter} from 'vue-router';
 import { useStore } from '@/store';
 import { LocationMarkerIcon, HomeIcon } from '@heroicons/vue/outline';
 
 const route = useRoute();
+const router = useRouter();
 const store = useStore();
 
-store.fetchCurrentCharacter(route.params.id);
+if (/[0-9]+/.test(route.params.id)) {
+  store.fetchCurrentCharacter(route.params.id);
+} else {
+  router.push({ name: 'NotFound'});
+}
+
 
 onUnmounted(() => store.resetCurrentCharacter());
 </script>
