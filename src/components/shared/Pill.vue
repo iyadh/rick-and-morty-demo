@@ -1,13 +1,18 @@
 <template>
 <span class="pill"
-  :class="status">{{ label }}</span>
+  :class="props.status">
+  <slot></slot>
+</span>
 </template>
 
-<script>
-export default {
-  name: "Pill",
-  props: ['status', 'label']
-}
+<script setup>
+const props = defineProps({
+  status: {
+    type: String,
+    default: 'unknown',
+    validator: value => ['species', 'alive', 'dead', 'unknown'].includes(value)
+  }
+})
 </script>
 
 <style scoped>
