@@ -1,16 +1,29 @@
 <template>
   <div class="card"
-  @click="$router.push({ name:'character', params: { id } })">
+  @click="router.push({ name:'character', params: { id } })">
     <img :src="img" :alt="name" class="w-full ">
     <h2 class="text-xl py-4">{{ name }}</h2>
   </div>
 </template>
 
-<script>
-export default {
-  name: "Card",
-  props: ['id', 'img', 'name']
-}
+<script setup>
+import {useRouter} from 'vue-router';
+
+const router = useRouter();
+const { id, img, name } = defineProps({
+  img: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  id: {
+    type: String,
+    required: true
+  }
+});
 </script>
 
 <style scoped>
