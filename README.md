@@ -1,17 +1,17 @@
 # Rick and Morty Characters DB
 
-Demo on [Vercel](https://jellysmack-demo.vercel.app/)
+Demo on [Vercel](https://rick-and-morty-demo.vercel.app/)
 
 ## Technical Stack
 
 - Vite
 - Vue 3
-- Vuex
+- ~~Vuex~~ Replaced with Pinia
 - Vue Router
 - Tailwind CSS
 
 ## Run
 
-- `npm i`
-- `npm run dev`
+- `yarn`
+- `yarn dev`
 - Open [http://localhost:3000/](http://localhost:3000/) in the browser
