@@ -10,8 +10,7 @@
     "@tailwindcss/forms": "^0.3.4",
     "pinia": "^2.0.11",
     "vue": "^3.2.16",
-    "vue-router": "^4.0.11",
-    "vuex": "^4.0.2"
+    "vue-router": "^4.0.11"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^1.9.2",
