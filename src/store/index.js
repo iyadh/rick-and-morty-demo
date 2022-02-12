@@ -1,4 +1,56 @@
 import { createStore } from 'vuex';
+import { defineStore } from 'pinia';
+
+export const useStore = defineStore('store', {
+  state: () => ({
+    characters: [],
+    currentCharacterId: 1,
+    search: {
+      name: '',
+      status: []
+    },
+    pagination: {
+      count: 0,
+      page: 1,
+      pages: null,
+      next: null,
+      prev: null
+    }
+  }),
+  getters: {
+    getCharacter: (state) => {
+      console.log(state.characters[state.currentCharacterId - 1]);
+      return () => state.characters[state.currentCharacterId - 1];
+    },
+  },
+  actions: {
+    async fetchCharacters() {
+      await fetch(import.meta.env.VITE_MAIN_URL)
+        .then(response => response.json())
+        .then(data => {
+          this.characters = data.results;
+          this.pagination = data.info;
+        })
+        .catch(error => {
+          console.log(error);
+          this.pagination = {
+            page: 1,
+            pages: null,
+            next: null,
+            prev: null
+          };
+        });
+    },
+    saveSearch(search) {
+      this.search = search;
+    },
+    saveCurrentCharacterId(id) {
+      this.currentCharacterId = id;
+    },
+  }
+});
+
+
 
 // Getters
 const getters = {

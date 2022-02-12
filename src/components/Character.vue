@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto px-4">
     <div class="flex flex-col md:flex-row bg-white rounded-xl overflow-hidden space-x-8">
-      <img :src="character?.image" :alt="character?.name" class="w-full md:w-1/2">
+      <img :src="character.image" :alt="character.name" class="w-full md:w-1/2">
       <section class="flex flex-col items-start py-4 space-y-4">
         <h1 class="text-4xl mb-4 uppercase font-black tracking-widest">{{ character?.name }}</h1>
         <Pill :status="'species'" :label="character?.species + ' - ' + character?.gender" />
@@ -26,24 +26,19 @@
   </div>
 </template>
 
-<script>
-import Pill from './shared/Pill.vue';
-import {mapGetters} from "vuex";
+<script setup>
+import { computed } from "vue";
+import { useRoute } from 'vue-router';
+import { useStore } from '@/store';
+import { Pill } from '@/components/shared/Pill';
 
-export default {
-  name: "Character",
-  components: { Pill },
-  data: () => {},
-  computed: {
-    ...mapGetters([
-        "findCharacterById"
-    ]),
-    character() {
-      return this.findCharacterById(this.$route.params.id);
-    }
-  },
-  created() {}
-}
+
+const route = useRoute();
+const store = useStore();
+
+store.saveCurrentCharacterId(route.params.id);
+
+const character = computed(() => store.getCharacter());
 </script>
 
 <style scoped>
