@@ -28,58 +28,36 @@
   </div>
 </template>
 
-<script>
-import {mapActions, mapState} from "vuex"
-export default {
-  name: "Searchbar",
-  data() {
-    return {
-      name: '',
-      status: []
-    }
-  },
-  computed: {
-    ...mapState([
-      'pagination',
-      'url',
-      'search'
-    ]),
-    searchUrl() {
-      let _url = new URL('https://rickandmortyapi.com/api/character/');
-      _url.search = new URLSearchParams({
-        name: this.name,
-        status: this.status,
-        page: this.pagination.page
-      });
-      return _url;
-    }
-  },
-  mounted() {
-    this.name = this.search.name;
-    this.status = this.search.status;
-  },
-  methods: {
-    ...mapActions([
-      'getCharacters',
-      'saveSearch'
-    ]),
-    click() {
-      this.getCharacters({url: this.searchUrl, page: this.pagination.page});
-      this.saveSearch({
-        name: this.name,
-        status: this.status
-      });
-    },
-    reset() {
-      this.name = '';
-      this.status = [];
-      this.saveSearch({
-        name: '',
-        status: []
-      });
-      this.getCharacters({url: 'https://rickandmortyapi.com/api/character/', page: 1});
-    }
-  }
+<script setup>
+import {ref} from "vue";
+import { useStore } from '@/store';
+
+const store = useStore();
+const name = ref('');
+const status = ref([]);
+
+const click = () => {
+  console.log('page', store.pagination.page);
+  const query = {
+    name: name.value,
+    status: status.value,
+  };
+  store.searchCharacters({
+    ...query,
+    page: store.pagination.page
+  });
+  store.saveSearch(query);
+}
+
+const reset = () => {
+  name.value = '';
+  status.value = [];
+  const query = {
+    name: name.value,
+    status: status.value,
+  };
+  store.saveSearch(query);
+  store.fetchCharacters();
 }
 </script>
 
