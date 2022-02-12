@@ -69,7 +69,6 @@ export const useStore = defineStore('store', {
       await fetch(`${import.meta.env.VITE_MAIN_URL}/${id}`)
         .then(response => response.json())
         .then(data => {
-          console.log(data);
           this.currentCharacter = data;
         })
         .catch(error => {
