@@ -31,14 +31,16 @@
 </template>
 
 <script setup>
+import {onUnmounted} from "vue";
 import { useRoute } from 'vue-router';
 import { useStore } from '@/store';
-
 
 const route = useRoute();
 const store = useStore();
 
 store.fetchCurrentCharacter(route.params.id);
+
+onUnmounted(() => store.resetCurrentCharacter());
 </script>
 
 <style scoped>

@@ -4,6 +4,7 @@ export const useStore = defineStore('store', {
   state: () => ({
     characters: [],
     currentCharacter: {},
+    isSearch: false,
     search: {
       name: '',
       status: []
@@ -61,9 +62,6 @@ export const useStore = defineStore('store', {
           };
         });
     },
-    saveSearch(search) {
-      this.search = search;
-    },
     async fetchCurrentCharacter(id) {
       await fetch(`${import.meta.env.VITE_MAIN_URL}/${id}`)
         .then(response => response.json())
@@ -73,6 +71,15 @@ export const useStore = defineStore('store', {
         .catch(error => {
           console.log(error);
         });
+    },
+    saveSearch(search) {
+      this.search = search;
+    },
+    setSearchMode(isSearch) {
+      this.isSearch = isSearch;
+    },
+    resetCurrentCharacter() {
+      this.currentCharacter = {};
     }
   }
 });
