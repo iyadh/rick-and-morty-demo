@@ -1,83 +1,82 @@
 import { createStore } from 'vuex';
+import { defineStore } from 'pinia';
 
-// Getters
-const getters = {
-  allCharacters: state => state.characters,
-  findCharacterById: (state) => (id) => {
-    return state.characters.find(c => c.id === parseInt(id));
-  },
-  getQuery: state => state.search
-};
-// Actions
-const actions = {
-  getCharacters({ commit }, {url, page} ) {
-    fetch(url)
-      .then((response) => response.json())
-      .then((response) => {
-        console.log(response)
-        commit('setCharacters', response.results);
-        commit('setUrl', url);
-        commit('setPagination', {
-          page: !!page ? page : this.state.pagination.page,
-          pages: response.info.pages,
-          next: response.info.next,
-          prev: response.info.prev
-        });
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-        commit('setCharacters', []);
-        commit('setUrl', url);
-        commit('setPagination', {
-          page: 1,
-          pages: null,
-          next: null,
-          prev: null
-        });
-      });
-  },
-  saveSearch({commit}, query) {
-    commit('setSearchQuery', query);
-  }
-}
-// Mutations
-const mutations = {
-  setCharacters(state, characters) {
-    state.characters = characters;
-  },
-  setPagination(state, pagination) {
-    state.pagination = pagination;
-  },
-  setUrl(state, url) {
-    state.url = url;
-  },
-  setSearchQuery(state, query) {
-    state.search = query
-  }
-}
-
-export const store = createStore({
-  state() {
-    return {
-      characters: [],
-      currentCharacter: {},
-      url: 'https://rickandmortyapi.com/api/character',
-      search: {
-        name: '',
-        status: []
-      },
-      pagination: {
-        page: 1,
-        pages: null,
-        next: null,
-        prev: null
-      }
+export const useStore = defineStore('store', {
+  state: () => ({
+    characters: [],
+    currentCharacter: {},
+    search: {
+      name: '',
+      status: []
+    },
+    pagination: {
+      count: 0,
+      page: 1,
+      pages: null,
+      next: null,
+      prev: null
     }
-  },
-  mutations,
-  actions,
-  getters
+  }),
+  actions: {
+    async searchCharacters(query) {
+      const url = new URL(import.meta.env.VITE_MAIN_URL);
+      url.search = new URLSearchParams(query);
+      
+      await fetch(url.toString())
+        .then(response => response.json())
+        .then(data => {
+          this.characters = data.results;
+          this.pagination = {
+            ...data.info,
+            page: this.pagination.page
+          };
+        })
+        .catch(error => {
+          console.log(error);
+          this.pagination = {
+            page: 1,
+            pages: null,
+            next: null,
+            prev: null
+          };
+        });
+    },
+    async fetchCharacters(paginated = false, page = 1) {
+      const url = paginated ? `${import.meta.env.VITE_MAIN_URL}/?page=${page}` : `${import.meta.env.VITE_MAIN_URL}`;
+      await fetch(url)
+        .then(response => response.json())
+        .then(data => {
+          this.characters = data.results;
+          this.pagination = {
+            ...data.info,
+            page: this.pagination.page
+          };
+        })
+        .catch(error => {
+          console.log(error);
+          this.pagination = {
+            page: paginated ? page : 1,
+            pages: null,
+            next: null,
+            prev: null
+          };
+        });
+    },
+    saveSearch(search) {
+      this.search = search;
+    },
+    async fetchCurrentCharacter(id) {
+      await fetch(`${import.meta.env.VITE_MAIN_URL}/${id}`)
+        .then(response => response.json())
+        .then(data => {
+          console.log(data);
+          this.currentCharacter = data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
 });
 
-export default { store };
+export default { useStore };

@@ -27,28 +27,22 @@
   </div>
 </template>
 
-<script>
-import {mapActions, mapState} from "vuex";
+<script setup>
+import { useStore} from "@/store";
+import {storeToRefs} from "pinia";
 
-export default {
-  name: "Pagination",
-  computed: {
-    ...mapState([
-        'pagination'
-    ])
-  },
-  methods: {
-    ...mapActions([
-      'getCharacters'
-    ]),
-    nextPage() {
-      this.getCharacters({ url: this.pagination.next, page: this.pagination.page + 1})
-    },
-    previousPage() {
-      this.getCharacters({ url: this.pagination.prev, page: this.pagination.page - 1})
-    }
-  }
-}
+const store = useStore();
+const { pagination } = storeToRefs(store);
+
+const nextPage = () => {
+  store.pagination.page++;
+  store.fetchCharacters(true, store.pagination.page);
+};
+
+const previousPage = () => {
+  store.pagination.page--;
+  store.fetchCharacters(true, store.pagination.page);
+};
 </script>
 
 <style scoped>
