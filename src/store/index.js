@@ -1,4 +1,3 @@
-import { createStore } from 'vuex';
 import { defineStore } from 'pinia';
 
 export const useStore = defineStore('store', {
