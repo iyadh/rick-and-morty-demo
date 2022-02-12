@@ -1,4 +1,7 @@
 import { defineStore } from 'pinia';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
 
 export const useStore = defineStore('store', {
   state: () => ({
@@ -25,6 +28,10 @@ export const useStore = defineStore('store', {
       await fetch(url.toString())
         .then(response => response.json())
         .then(data => {
+          if ('error' in data) {
+            this.characters = [];
+            throw new Error(data.error);
+          }
           this.characters = data.results;
           this.pagination = {
             ...data.info,
@@ -70,6 +77,7 @@ export const useStore = defineStore('store', {
         })
         .catch(error => {
           console.log(error);
+          router.push({ name: 'NotFound'});
         });
     },
     saveSearch(search) {

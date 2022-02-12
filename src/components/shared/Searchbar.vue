@@ -5,16 +5,16 @@
     </label>
     <div class="filters mt-4 md:mt-0">
       <label for="isAlive">
-        <input type="checkbox" id="isAlive" value="alive" v-model="status">
+        <input type="radio" name="status" id="isAlive" value="alive" v-model="status">
         Alive
       </label>
       <label for="isDead">
-        <input type="checkbox" id="isDead" value="dead" v-model="status">
+        <input type="radio" name="status" id="isDead" value="dead" v-model="status">
         Dead
       </label>
 
       <label for="isUnknown">
-        <input type="checkbox" id="isUnknown" value="unknown" v-model="status">
+        <input type="radio" name="status" id="isUnknown" value="unknown" v-model="status">
         Unknown
       </label>
     </div>
