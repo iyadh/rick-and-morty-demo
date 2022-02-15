@@ -1,5 +1,5 @@
 <template>
-  <div class="searchbar">
+  <form class="searchbar">
     <label for="name" class="w-full md:w-8/12 flex">
       <input type="text" id="name" v-model="name" class="text-field" placeholder="Enter a character name ...">
     </label>
@@ -19,47 +19,46 @@
       </label>
     </div>
     <div class="controls space-x-2 mt-4 md:mt-0 flex">
-      <button @click="reset" class=" p-2 rounded-lg bg-gray-100 text-gray-700 tracking-widest uppercase text-sm">Reset
+      <button
+        type="reset"
+        @click="reset"
+        class="p-2 rounded-lg bg-gray-100 text-gray-700 tracking-widest uppercase text-sm"
+      >
+        Reset
       </button>
-      <button @click="click"
-              class=" p-2 rounded-lg bg-green-100 text-green-900 tracking-widest uppercase text-sm">Search
+      <button
+        type="submit"
+        @click="click"
+        class="p-2 rounded-lg bg-green-100 text-green-900 tracking-widest uppercase text-sm"
+      >
+        Search
       </button>
     </div>
-  </div>
+  </form>
 </template>
 
 <script setup>
-import {ref} from "vue";
-import { useStore } from '@/store';
+import { ref } from "vue";
+import { useStore } from "@/store";
 
 const store = useStore();
 const name = ref(store.search.name);
 const status = ref(store.search.status);
 
 const click = () => {
-  const query = {
-    name: name.value,
-    status: status.value,
-  };
   store.searchCharacters({
-    ...query,
-    page: store.pagination.page
-  });
-  store.saveSearch(query);
-  store.setSearchMode(true);
-}
-
-const reset = () => {
-  name.value = '';
-  status.value = [];
-  const query = {
     name: name.value,
     status: status.value,
-  };
-  store.saveSearch(query);
-  store.setSearchMode(false);
-  store.fetchCharacters();
-}
+    page: 1,
+  });
+};
+
+const reset = () =>
+  store.searchCharacters({
+    name: "",
+    status: "",
+    page: 1,
+  });
 </script>
 
 <style scoped>
