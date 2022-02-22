@@ -14,27 +14,19 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from "pinia";
 import Searchbar from "./shared/Searchbar.vue";
-import Card from './shared/Card.vue';
+import Card from "./shared/Card.vue";
 import Pagination from "./shared/Pagination.vue";
 import NoResults from "./shared/NoResults.vue";
-import { useStore } from '@/store';
+import { useStore } from "@/store";
 
 const store = useStore();
 const { characters } = storeToRefs(store);
-
-const init = () => {
-  if (store.isSearch) {
-    store.searchCharacters(store.search);
-    return;
-  }
-  store.fetchCharacters(true, store.pagination.page);
-}
-
-init();
+store.searchCharacters({
+  ...store.search,
+  page: store.pagination.page,
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

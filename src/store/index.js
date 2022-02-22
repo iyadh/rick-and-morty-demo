@@ -10,7 +10,7 @@ export const useStore = defineStore('store', {
     isSearch: false,
     search: {
       name: '',
-      status: []
+      status: ''
     },
     pagination: {
       count: 0,
@@ -21,53 +21,32 @@ export const useStore = defineStore('store', {
     }
   }),
   actions: {
-    async searchCharacters(query) {
+    async searchCharacters({ page = 1, ...search }) {
+      this.search = search;
+      this.isSearch = Boolean(search.name || search.status);
+
       const url = new URL(import.meta.env.VITE_MAIN_URL);
-      url.search = new URLSearchParams(query);
-      
-      await fetch(url.toString())
-        .then(response => response.json())
-        .then(data => {
-          if ('error' in data) {
-            this.characters = [];
-            throw new Error(data.error);
-          }
-          this.characters = data.results;
-          this.pagination = {
-            ...data.info,
-            page: this.pagination.page
-          };
-        })
-        .catch(error => {
-          console.log(error);
-          this.pagination = {
-            page: 1,
-            pages: null,
-            next: null,
-            prev: null
-          };
-        });
-    },
-    async fetchCharacters(paginated = false, page = 1) {
-      const url = paginated ? `${import.meta.env.VITE_MAIN_URL}/?page=${page}` : `${import.meta.env.VITE_MAIN_URL}`;
-      await fetch(url)
-        .then(response => response.json())
-        .then(data => {
-          this.characters = data.results;
-          this.pagination = {
-            ...data.info,
-            page: this.pagination.page
-          };
-        })
-        .catch(error => {
-          console.log(error);
-          this.pagination = {
-            page: paginated ? page : 1,
-            pages: null,
-            next: null,
-            prev: null
-          };
-        });
+      url.search = new URLSearchParams({...search, page});
+      try {
+        const data = await fetch(url.toString()).then(response => response.json())
+        if ('error' in data) {
+          this.characters = [];
+          throw new Error(data.error);
+        }
+        this.characters = data.results;
+        this.pagination = {
+          ...data.info,
+          page,
+        };
+      } catch(error) {
+        console.log(error);
+        this.pagination = {
+          page: 1,
+          pages: null,
+          next: null,
+          prev: null
+        };
+      }
     },
     async fetchCurrentCharacter(id) {
       await fetch(`${import.meta.env.VITE_MAIN_URL}/${id}`)
@@ -79,12 +58,6 @@ export const useStore = defineStore('store', {
           console.log(error);
           router.push({ name: 'NotFound'});
         });
-    },
-    saveSearch(search) {
-      this.search = search;
-    },
-    setSearchMode(isSearch) {
-      this.isSearch = isSearch;
     },
     resetCurrentCharacter() {
       this.currentCharacter = {};

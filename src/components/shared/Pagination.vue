@@ -28,23 +28,23 @@
 </template>
 
 <script setup>
-import { useStore} from "@/store";
-import {storeToRefs} from "pinia";
+import { useStore } from "@/store";
+import { storeToRefs } from "pinia";
 
 const store = useStore();
 const { pagination } = storeToRefs(store);
 
-const nextPage = () => {
-  store.pagination.page++;
-  store.fetchCharacters(true, store.pagination.page);
-};
+const nextPage = () =>
+  store.searchCharacters({
+    ...store.search,
+    page: store.pagination.page + 1,
+  });
 
-const previousPage = () => {
-  store.pagination.page--;
-  store.fetchCharacters(true, store.pagination.page);
-};
+const previousPage = () =>
+  store.searchCharacters({
+    ...store.search,
+    page: store.pagination.page - 1,
+  });
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
