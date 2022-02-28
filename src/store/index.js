@@ -10,15 +10,15 @@ export const useStore = defineStore('store', {
     isSearch: false,
     search: {
       name: '',
-      status: ''
+      status: '',
     },
     pagination: {
       count: 0,
       page: 1,
       pages: null,
       next: null,
-      prev: null
-    }
+      prev: null,
+    },
   }),
   actions: {
     async searchCharacters({ page = 1, ...search }) {
@@ -26,9 +26,9 @@ export const useStore = defineStore('store', {
       this.isSearch = Boolean(search.name || search.status);
 
       const url = new URL(import.meta.env.VITE_MAIN_URL);
-      url.search = new URLSearchParams({...search, page});
+      url.search = new URLSearchParams({ ...search, page });
       try {
-        const data = await fetch(url.toString()).then(response => response.json())
+        const data = await fetch(url.toString()).then(response => response.json());
         if ('error' in data) {
           this.characters = [];
           throw new Error(data.error);
@@ -38,13 +38,13 @@ export const useStore = defineStore('store', {
           ...data.info,
           page,
         };
-      } catch(error) {
+      } catch (error) {
         console.log(error);
         this.pagination = {
           page: 1,
           pages: null,
           next: null,
-          prev: null
+          prev: null,
         };
       }
     },
@@ -56,13 +56,13 @@ export const useStore = defineStore('store', {
         })
         .catch(error => {
           console.log(error);
-          router.push({ name: 'NotFound'});
+          router.push({ name: 'NotFound' });
         });
     },
     resetCurrentCharacter() {
       this.currentCharacter = {};
-    }
-  }
+    },
+  },
 });
 
 export default { useStore };

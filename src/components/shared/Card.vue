@@ -1,28 +1,28 @@
 <template>
-  <div class="card"
-  @click="router.push({ name:'character', params: { id } })">
-    <img :src="img" :alt="name" class="w-full ">
+  <div class="card" @click="router.push({ name: 'character', params: { id: props.id } })">
+    <img :src="props.img" :alt="props.name" class="w-full" />
     <h2 class="text-xl py-4">{{ name }}</h2>
   </div>
 </template>
 
 <script setup>
-import {useRouter} from 'vue-router';
+import { useRouter } from 'vue-router';
 
+// eslint-disable-next-line no-unused-vars
 const router = useRouter();
-const { id, img, name } = defineProps({
+const props = defineProps({
   img: {
     type: String,
-    required: true
+    required: true,
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   id: {
     type: String,
-    required: true
-  }
+    required: true,
+  },
 });
 </script>
 

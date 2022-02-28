@@ -1,35 +1,35 @@
 <template>
   <form class="searchbar">
     <label for="name" class="w-full md:w-8/12 flex">
-      <input type="text" id="name" v-model="name" class="text-field" placeholder="Enter a character name ...">
+      <input id="name" v-model="name" type="text" class="text-field" placeholder="Enter a character name ..." />
     </label>
     <div class="filters mt-4 md:mt-0">
       <label for="isAlive">
-        <input type="radio" name="status" id="isAlive" value="alive" v-model="status">
+        <input id="isAlive" v-model="status" type="radio" name="status" value="alive" />
         Alive
       </label>
       <label for="isDead">
-        <input type="radio" name="status" id="isDead" value="dead" v-model="status">
+        <input id="isDead" v-model="status" type="radio" name="status" value="dead" />
         Dead
       </label>
 
       <label for="isUnknown">
-        <input type="radio" name="status" id="isUnknown" value="unknown" v-model="status">
+        <input id="isUnknown" v-model="status" type="radio" name="status" value="unknown" />
         Unknown
       </label>
     </div>
     <div class="controls space-x-2 mt-4 md:mt-0 flex">
       <button
         type="reset"
-        @click="reset"
         class="p-2 rounded-lg bg-gray-100 text-gray-700 tracking-widest uppercase text-sm"
+        @click="reset"
       >
         Reset
       </button>
       <button
         type="submit"
-        @click="click"
         class="p-2 rounded-lg bg-green-100 text-green-900 tracking-widest uppercase text-sm"
+        @click="click"
       >
         Search
       </button>
@@ -38,8 +38,8 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { useStore } from "@/store";
+import { ref } from 'vue';
+import { useStore } from '@/store';
 
 const store = useStore();
 const name = ref(store.search.name);
@@ -55,8 +55,8 @@ const click = () => {
 
 const reset = () =>
   store.searchCharacters({
-    name: "",
-    status: "",
+    name: '',
+    status: '',
     page: 1,
   });
 </script>

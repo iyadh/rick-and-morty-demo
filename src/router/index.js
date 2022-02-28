@@ -1,7 +1,7 @@
-import {createRouter, createWebHashHistory} from "vue-router";
-import Characters from "@/components/Characters.vue";
-import Character from "@/components/Character.vue";
-import NoResults from "@/components/shared/NoResults.vue";
+import { createRouter, createWebHashHistory } from 'vue-router';
+import Characters from '@/components/Characters.vue';
+import Character from '@/components/Character.vue';
+import NoResults from '@/components/shared/NoResults.vue';
 
 const routes = [
   { path: '/characters', name: 'home', component: Characters },

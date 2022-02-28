@@ -1,9 +1,7 @@
 <template>
   <div class="toolbar">
     <div class="tb--container">
-      <span class="back-btn group"
-            v-if="route.name === 'character'"
-            @click="router.push({ name: 'home'})">
+      <span v-if="route.name === 'character'" class="back-btn group" @click="router.push({ name: 'home' })">
         <ArrowLeftIcon class="icon group-hover:text-green-600" />
       </span>
       <Logo />
