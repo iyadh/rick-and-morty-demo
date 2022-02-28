@@ -1,8 +1,7 @@
 <template>
-<span class="pill"
-  :class="props.status">
-  <slot></slot>
-</span>
+  <span class="pill" :class="props.status">
+    <slot></slot>
+  </span>
 </template>
 
 <script setup>
@@ -10,9 +9,9 @@ const props = defineProps({
   status: {
     type: String,
     default: 'unknown',
-    validator: value => ['species', 'alive', 'dead', 'unknown'].includes(value)
-  }
-})
+    validator: value => ['species', 'alive', 'dead', 'unknown'].includes(value),
+  },
+});
 </script>
 
 <style scoped>
