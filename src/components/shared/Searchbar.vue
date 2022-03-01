@@ -22,14 +22,14 @@
       <button
         type="reset"
         class="p-2 rounded-lg bg-gray-100 text-gray-700 tracking-widest uppercase text-sm"
-        @click="reset"
+        @click.prevent="reset"
       >
         Reset
       </button>
       <button
         type="submit"
         class="p-2 rounded-lg bg-green-100 text-green-900 tracking-widest uppercase text-sm"
-        @click="click"
+        @click.prevent="click"
       >
         Search
       </button>
