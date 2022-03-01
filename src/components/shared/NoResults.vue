@@ -15,13 +15,14 @@
     >
       <HomeIcon class="h-5 w-5 mr-2 stroke-current" /> Go Home!
     </router-link>
-    <img class="w-5/6 md:w-1/3 object-cover" src="./../../assets/jerry-lost.png" alt="There is nothing here" />
+    <img class="w-5/6 md:w-1/3 object-cover" :src="jerry" alt="There is nothing here" />
   </div>
 </template>
 
 <script setup>
 import { useStore } from '@/store';
 import { HomeIcon } from '@heroicons/vue/outline';
+import jerry from '@assets/jerry-lost.png';
 
 const store = useStore();
 </script>
