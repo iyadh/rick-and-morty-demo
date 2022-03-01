@@ -53,12 +53,14 @@ const click = () => {
   });
 };
 
-const reset = () =>
+const reset = () => {
+  name.value = status.value = '';
   store.searchCharacters({
     name: '',
     status: '',
     page: 1,
   });
+};
 </script>
 
 <style scoped>
