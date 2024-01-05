@@ -1,0 +1,10 @@
+node_modules
+.git
+.gitignore
+.dockerignore
+Dockerfile
+README.md
+LICENSE
+*.log
+*.env.local
+*.env.development
