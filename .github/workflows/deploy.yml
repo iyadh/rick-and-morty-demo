@@ -13,10 +13,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build and push Docker image
+      - name: Build Docker image
         run: |
-          docker build -t rick-and-morty .
-          docker save rick-and-morty > rick-and-morty.tar
+          docker build -t rick-and-morty:latest .
+          docker save rick-and-morty:latest > rick-and-morty.tar
 
       - name: Transfer Docker image to VPS
         uses: appleboy/scp-action@master
@@ -39,4 +39,4 @@ jobs:
             docker load < /tmp/rick-and-morty.tar
             docker stop rick-and-morty || true
             docker rm rick-and-morty || true
-            docker run -d --name rick-and-morty -p 8003:8003 price-calc:latest
+            docker run -d --name rick-and-morty -p 8003:8003 rick-and-morty:latest
