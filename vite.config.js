@@ -7,7 +7,7 @@ const path = require('path');
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: './rick-and-morty/',
+  base: '/projects/rick-and-morty/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
