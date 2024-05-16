@@ -17,13 +17,14 @@ jobs:
         run: |
           docker build -t rick-and-morty:latest .
           docker save rick-and-morty:latest > rick-and-morty.tar
+          chmod 664 rick-and-morty.tar
 
       - name: Transfer Docker image to VPS
         uses: appleboy/scp-action@master
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
-          password: ${{ secrets.VPS_PASSWORD }}
+          key: ${{ secrets.VPS_SSH }}
           port: ${{ secrets.VPS_PORT }}
           source: "rick-and-morty.tar"
           target: "/tmp"
@@ -33,7 +34,7 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
-          password: ${{ secrets.VPS_PASSWORD }}
+          key: ${{ secrets.VPS_SSH }}
           port: ${{ secrets.VPS_PORT }}
           script: |
             docker load < /tmp/rick-and-morty.tar
