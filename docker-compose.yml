@@ -16,6 +16,6 @@ services:
       # Add other environment variables as needed
 
 networks:
-  default:
+  network1:
     external: true
     name: vps-internal
