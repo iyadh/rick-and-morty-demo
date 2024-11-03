@@ -32,5 +32,5 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             cd ~/rick-and-morty-demo
-            docker-compose down
-            docker-compose up -d --build
+            docker compose down
+            docker compose up -d --build
