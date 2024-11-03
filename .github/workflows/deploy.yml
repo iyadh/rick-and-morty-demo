@@ -3,33 +3,34 @@ name: Deploy to VPS
 on:
   push:
     branches:
-      - main  # Adjust this to your deployment branch
+      - main
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
       - name: Copy project files to VPS
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_KEY }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH }}
+          port: ${{ secrets.VPS_PORT }}
           source: "."
           target: "~/rick-and-morty-demo"
 
-      - name: Deploy using SSH
+      - name: Deploy with Docker Compose
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_KEY }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH }}
+          port: ${{ secrets.VPS_PORT }}
           script: |
             cd ~/rick-and-morty-demo
             docker-compose down
-            docker-compose build
-            docker-compose up -d
+            docker-compose up -d --build
