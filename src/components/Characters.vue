@@ -25,10 +25,12 @@ import { useStore } from '@/store';
 
 const store = useStore();
 const { characters } = storeToRefs(store);
-store.searchCharacters({
-  ...store.search,
-  page: store.pagination.page,
-});
+// The searchCharacters call is removed.
+// pinia-colada's urlSync plugin and its handler in the store
+// are now responsible for triggering data fetching when relevant
+// URL-synchronized state (name, status, page) changes.
+// The initial fetch will also be triggered by the plugin if URL params are present,
+// or if default values in the store trigger the handler.
 </script>
 
 <style scoped></style>
