@@ -105,6 +105,36 @@ export const useStore = defineStore('store', {
     resetCurrentCharacter() {
       this.currentCharacter = {};
     },
+    initializePageReset() {
+      // Initialize previous values from the current state when subscription starts
+      let previousName = this.search.name;
+      let previousStatus = this.search.status;
+
+      this.$subscribe((mutation, state) => {
+        // Ensure the mutation is for this specific store
+        if (mutation.storeId === 'store') { // Replace 'store' if your storeId is different
+
+          // Check if search name or status has actually changed
+          const nameChanged = state.search.name !== previousName;
+          const statusChanged = state.search.status !== previousStatus;
+
+          if (nameChanged || statusChanged) {
+            // If name or status changed, and page is not 1, reset page to 1
+            if (state.pagination.page !== 1) {
+              this.pagination.page = 1;
+              // This change to pagination.page will be picked up by pinia-colada's
+              // urlSync, which will update the URL. The urlSync.handler (searchCharacters)
+              // will then be called with the new search terms and page 1.
+            }
+          }
+
+          // After processing, update previousName and previousStatus to current state values
+          // for the next subscription event.
+          previousName = state.search.name;
+          previousStatus = state.search.status;
+        }
+      });
+    }
   },
   // Configuration for pinia-colada urlSyncPlugin
   urlSync: {

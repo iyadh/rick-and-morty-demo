@@ -2,6 +2,14 @@
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
 import Toolbar from './components/shared/Toolbar.vue';
+import { onMounted } from 'vue';
+import { useStore } from '@/store';
+
+const store = useStore();
+
+onMounted(() => {
+  store.initializePageReset();
+});
 </script>
 
 <template>

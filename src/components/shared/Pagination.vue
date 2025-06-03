@@ -34,17 +34,23 @@ import { useStore } from '@/store';
 const store = useStore();
 const { pagination } = storeToRefs(store);
 
-const nextPage = () =>
-  store.searchCharacters({
-    ...store.search,
-    page: store.pagination.page + 1,
-  });
+const nextPage = () => {
+  // Only update the page number in the store.
+  // pinia-colada will detect this change, update the URL,
+  // and its urlSync.handler will call searchCharacters.
+  if (store.pagination.next) { // Optional: guard to ensure next page exists based on current data
+    store.pagination.page++;
+  }
+};
 
-const previousPage = () =>
-  store.searchCharacters({
-    ...store.search,
-    page: store.pagination.page - 1,
-  });
+const previousPage = () => {
+  // Only update the page number in the store.
+  // pinia-colada will detect this change, update the URL,
+  // and its urlSync.handler will call searchCharacters.
+  if (store.pagination.prev) { // Optional: guard to ensure previous page exists
+    store.pagination.page--;
+  }
+};
 </script>
 
 <style scoped></style>
