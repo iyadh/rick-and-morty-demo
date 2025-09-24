@@ -1,15 +1,16 @@
+import { useParams } from 'react-router';
 import { MapPinIcon, HomeIcon } from '@heroicons/react/24/outline';
 import StatusPill from './shared/StatusPill';
 import ErrorPanel from './shared/ErrorPanel';
 import { useCharacter } from '@/hooks/useCharacter';
-import { useParams } from 'react-router';
+import type { Status } from '@/types';
 
 const Character = () => {
   const { id } = useParams<{ id: string }>();
-  const { character, isLoading, error } = useCharacter(id);
+  const { character, isLoading, error } = useCharacter(id || '');
 
   if (isLoading) return <div>Fetching data...</div>;
-  if (error || !/^\d+$/.test(id)) return <ErrorPanel />;
+  if (error) return <ErrorPanel />;
 
   return (
     <div className='container mx-auto py-8 px-4'>
@@ -18,7 +19,7 @@ const Character = () => {
         <section className='flex flex-col items-start py-4 space-y-4'>
           <h1 className='text-4xl mb-4 uppercase font-black tracking-widest'>{character?.name}</h1>
           <StatusPill status='species'>{character?.species + ' - ' + character?.gender}</StatusPill>
-          <StatusPill status={character?.status?.toLowerCase()}>{character?.status}</StatusPill>
+          <StatusPill status={character?.status?.toLowerCase() as Status}>{character?.status}</StatusPill>
           <span className='flex justify-center'>
             <MapPinIcon className='h-6 w-6 mr-2 stroke-character text-gray-300' />
             Location: {character?.location?.name}

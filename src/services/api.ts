@@ -14,8 +14,6 @@ interface ApiError {
   error: string;
 }
 
-type ApiResponse = ApiSuccess | ApiError;
-
 const isApiError = (response: unknown): response is ApiError => {
   return (
     typeof response === 'object' &&
@@ -28,7 +26,7 @@ const isApiError = (response: unknown): response is ApiError => {
 class Api {
   private baseUrl = import.meta.env.VITE_MAIN_URL;
 
-  async fetchCharacters(params: FetchCharactersParams = {}): Promise<ApiResponse<Character>> {
+  async fetchCharacters(params: FetchCharactersParams = {}): Promise<ApiSuccess<Character>> {
     const url = new URL(this.baseUrl);
 
     Object.entries(params).forEach(([key, value]) => {
@@ -37,17 +35,33 @@ class Api {
 
     const response = await fetch(url);
 
-    if (isApiError(response.error)) throw new Error(`Failed to fetch characters: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+    }
 
-    return response.json();
+    const data: unknown = await response.json();
+
+    if (isApiError(data)) {
+      throw new Error(data.error);
+    }
+
+    return data as ApiSuccess<Character>;
   }
 
   async fetchCharacter(id: string): Promise<Character> {
     const response = await fetch(`${this.baseUrl}/${id}`);
 
-    if (isApiError(response.error)) throw new Error(`Failed to fetch character: ${response.statusText}`);
+    if (!response.ok) {
+      throw new Error(`HTTP Error: ${response.status} ${response.statusText}`);
+    }
 
-    return response.json();
+    const data: unknown = await response.json();
+
+    if (isApiError(data)) {
+      throw new Error(data.error);
+    }
+
+    return data as Character;
   }
 }
 

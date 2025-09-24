@@ -7,6 +7,13 @@ export const useCharacter = (id: string) => {
 
   const fetchCharacter = useCallback(
     async (characterId: string) => {
+      // Validate ID before making API call
+      if (!characterId || characterId.trim() === '' || !/^\d+$/.test(characterId)) {
+        setError('Invalid character ID');
+        setLoading(false);
+        return;
+      }
+
       setLoading(true);
       setError(null);
 
@@ -23,9 +30,7 @@ export const useCharacter = (id: string) => {
   );
 
   useEffect(() => {
-    if (id) {
-      fetchCharacter(id);
-    }
+    fetchCharacter(id);
   }, [fetchCharacter, id]);
 
   return {
