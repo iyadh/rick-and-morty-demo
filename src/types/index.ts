@@ -17,6 +17,8 @@ interface CharacterLocation {
 }
 
 interface Character {
+  id: string;
+  name: string;
   status: 'Dead' | 'Alive' | 'unknown';
   species: string;
   type: string;

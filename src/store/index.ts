@@ -3,16 +3,18 @@ import type { Search, Pagination, Character } from '@/types';
 
 interface AppState {
   characters: Array<Character>;
-  currentCharacter: object;
+  currentCharacter: Character;
   isSearch: boolean;
   search: Search;
   pagination: Pagination;
+  fetchCharacters: () => void;
+  selectCharacter: (id: string) => void;
   reset: () => void;
 }
 
 const useStore = create<AppState>()(set => ({
   characters: [],
-  currentCharacter: {},
+  currentCharacter: {} as Character,
   isSearch: false,
   search: {
     name: '',
@@ -25,10 +27,35 @@ const useStore = create<AppState>()(set => ({
     next: undefined,
     prev: undefined,
   },
+  fetchCharacters: async () => {
+    const url = new URL(import.meta.env.VITE_MAIN_URL);
+    try {
+      const response = await fetch(url);
+
+      if (response.error) throw new Error('Failed to fetch characters');
+
+      const data = await response.json();
+      set({ characters: data.results });
+    } catch (error) {
+      throw new Error('Failed to fetch characters');
+    }
+  },
+  selectCharacter: async (id: string) => {
+    try {
+      const response = await fetch(`${import.meta.env.VITE_MAIN_URL}/${id}`);
+
+      if (response.error) throw new Error('Failed to fetch characters');
+
+      const data = await response.json();
+      set({ currentCharacter: data });
+    } catch (error) {
+      throw new Error('Failed to fetch characters');
+    }
+  },
   reset: () =>
     set({
       characters: [],
-      currentCharacter: {},
+      currentCharacter: {} as Character,
       isSearch: false,
       search: {
         name: '',
