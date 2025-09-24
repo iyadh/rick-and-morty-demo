@@ -11,17 +11,21 @@ interface CharacterLocation {
   url: string;
 }
 
+type CharacterStatus = 'Dead' | 'Alive' | 'unknown';
+type CharacterGender = 'Female' | 'Male' | 'Genderless' | 'unknown';
+
 interface Character {
   id: string;
   name: string;
-  status: 'Dead' | 'Alive' | 'unknown';
+  status: CharacterStatus;
   species: string;
   type: string;
-  gender: 'Female' | 'Male' | 'Genderless' | 'unknown';
+  gender: CharacterGender;
   origin: CharacterLocation;
   location: CharacterLocation;
   image: string;
   episode: string[];
+  created: string;
 }
 
 type FormEvent = React.FormEvent<HTMLFormElement>;

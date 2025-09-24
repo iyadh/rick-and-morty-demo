@@ -1,4 +1,3 @@
-import useStore from '@/store';
 import { useNavigate } from 'react-router';
 
 type CharacterProps = {
