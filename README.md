@@ -1,6 +1,6 @@
 # Rick and Morty Characters DB - React version
 
-Demo on [Vercel](https://rick-and-morty-demo.vercel.app/)
+Demo on [Vercel](https://rick-and-morty-r19.vercel.app/)
 
 ## Technical Stack
 
