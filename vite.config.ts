@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/projects/rick-and-morty/',
+  // base: '/projects/rick-and-morty/',
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

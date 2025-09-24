@@ -1,17 +1,19 @@
-# Rick and Morty Characters DB
+# Rick and Morty Characters DB - React version
 
 Demo on [Vercel](https://rick-and-morty-demo.vercel.app/)
 
 ## Technical Stack
 
+- Bun
 - Vite
-- Vue 3
-- ~~Vuex~~ Replaced with Pinia
+- React
+- Zustand
+- TypeScript
 - Vue Router
 - Tailwind CSS
 
 ## Run
 
-- `yarn`
-- `yarn dev`
+- `bun`
+- `bun dev`
 - Open [http://localhost:3000/](http://localhost:3000/) in the browser
