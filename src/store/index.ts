@@ -1,11 +1,10 @@
 import { create } from 'zustand';
-import type { Search, Pagination, Character } from '@/types';
+import type { Pagination, Character } from '@/types';
 
 interface AppState {
   characters: Array<Character>;
   currentCharacter: Character;
   isSearch: boolean;
-  search: Search;
   pagination: Pagination;
   fetchCharacters: () => void;
   selectCharacter: (id: string) => void;
@@ -16,10 +15,6 @@ const useStore = create<AppState>()(set => ({
   characters: [],
   currentCharacter: {} as Character,
   isSearch: false,
-  search: {
-    name: '',
-    status: '',
-  },
   pagination: {
     count: 0,
     page: 1,
@@ -61,10 +56,6 @@ const useStore = create<AppState>()(set => ({
       characters: [],
       currentCharacter: {} as Character,
       isSearch: false,
-      search: {
-        name: '',
-        status: '',
-      },
       pagination: {
         count: 0,
         page: 1,

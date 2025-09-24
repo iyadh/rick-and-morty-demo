@@ -1,8 +1,3 @@
-interface Search {
-  name: string;
-  status: string;
-}
-
 interface Pagination {
   count: number;
   page: number;
@@ -31,4 +26,4 @@ interface Character {
 
 type FormEvent = React.FormEvent<HTMLFormElement>;
 
-export type { Search, Pagination, CharacterLocation, Character, FormEvent };
+export type { Pagination, CharacterLocation, Character, FormEvent };
