@@ -29,4 +29,6 @@ interface Character {
   episode: string[];
 }
 
-export type { Search, Pagination, CharacterLocation, Character };
+type FormEvent = React.FormEvent<HTMLFormElement>;
+
+export type { Search, Pagination, CharacterLocation, Character, FormEvent };

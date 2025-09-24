@@ -27,8 +27,12 @@ const useStore = create<AppState>()(set => ({
     next: undefined,
     prev: undefined,
   },
-  fetchCharacters: async () => {
+  fetchCharacters: async (params = {}) => {
     const url = new URL(import.meta.env.VITE_MAIN_URL);
+
+    if (params.name) url.searchParams.set('name', params.name);
+    if (params.status) url.searchParams.set('status', params.status);
+
     try {
       const response = await fetch(url);
 
