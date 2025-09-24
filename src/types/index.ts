@@ -11,6 +11,7 @@ interface CharacterLocation {
   url: string;
 }
 
+type Status = 'species' | 'alive' | 'dead' | 'unknown';
 type CharacterStatus = 'Dead' | 'Alive' | 'unknown';
 type CharacterGender = 'Female' | 'Male' | 'Genderless' | 'unknown';
 
@@ -30,4 +31,4 @@ interface Character {
 
 type FormEvent = React.FormEvent<HTMLFormElement>;
 
-export type { Pagination, CharacterLocation, Character, FormEvent };
+export type { Pagination, CharacterLocation, Character, FormEvent, Status };

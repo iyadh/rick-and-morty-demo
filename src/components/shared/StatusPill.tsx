@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react';
-
-type Status = 'species' | 'alive' | 'dead' | 'unknown';
+import type { Status } from '@/types';
 
 interface StatusPillProps {
-  status?: Status;
+  status: Status;
   children: ReactNode;
 }
 
